@@ -14,3 +14,7 @@ Import the JSON file into Node-RED to reproduce the signal simulation environmen
 
 ## License
 MIT License
+
+## Software Availability
+This repository will host the Node-RED flow files developed and used in this study for Integrating Node-RED with Real PLCs for Analog and Digital Signal Simulation.
+The software will be released under the MIT License and archived with a persistent DOI upon finalization.
