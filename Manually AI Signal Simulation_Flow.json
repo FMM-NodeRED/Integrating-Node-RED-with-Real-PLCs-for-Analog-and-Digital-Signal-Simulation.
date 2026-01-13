@@ -1,0 +1,177 @@
+[
+    {
+        "id": "8aef34cf5e12f53d",
+        "type": "tab",
+        "label": "AIS-Level Transmitter",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "09d6f22166764934",
+        "type": "function",
+        "z": "8aef34cf5e12f53d",
+        "name": "(0-100%) to (4-20mADC)-Function Node",
+        "func": "// قراءة القيمة المدخلة (من 0 إلى 100%)\nvar inputPercentage = msg.payload;\n\n// تأكد أن القيمة في النطاق 0-100%\nif (inputPercentage < 0) {\n    inputPercentage = 0;\n} else if (inputPercentage > 100) {\n    inputPercentage = 100;\n}\n\n// تحويل القيمة من 0-100% إلى نطاق 4-20mA\nvar mAValue = 4 + (inputPercentage / 100) * 16; // معادلة التحويل: 4mA عند 0% و 20mA عند 100%\n\n// تعيين القيمة المحسوبة في msg.payload\nmsg.payload = mAValue;\n\n// إرجاع القيمة المحسوبة\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 220,
+        "wires": [
+            [
+                "7d29366fe8914656",
+                "4817375562e3e92b",
+                "948297126e50ae99"
+            ]
+        ]
+    },
+    {
+        "id": "7d29366fe8914656",
+        "type": "debug",
+        "z": "8aef34cf5e12f53d",
+        "name": "(4 - 20 mADC) to PLC  AI Channel-Debug Node",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "2e56d128f0841e56",
+        "type": "ui_numeric",
+        "z": "8aef34cf5e12f53d",
+        "name": "(0-100%) Manual Analog Input Value to PLC-Numeric Node",
+        "label": "(0-100%) Numeric",
+        "tooltip": "",
+        "group": "241864067f1d1d1a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "wrap": false,
+        "passthru": true,
+        "topic": "Analog_input",
+        "topicType": "msg",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "step": "5",
+        "className": "",
+        "x": 240,
+        "y": 160,
+        "wires": [
+            [
+                "09d6f22166764934"
+            ]
+        ]
+    },
+    {
+        "id": "4817375562e3e92b",
+        "type": "ui_level",
+        "z": "8aef34cf5e12f53d",
+        "group": "241864067f1d1d1a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "(4 - 20 mADC) to PLC  AI Channel-Level Node",
+        "label": "",
+        "colorHi": "#0024b3",
+        "colorWarn": "#0024b3",
+        "colorNormal": "#0024b3",
+        "colorOff": "#595959",
+        "min": "4",
+        "max": "20",
+        "segWarn": "",
+        "segHigh": "",
+        "unit": "mADC",
+        "layout": "sv",
+        "channelA": "",
+        "channelB": "",
+        "decimals": 0,
+        "animations": "soft",
+        "shape": 2,
+        "colorschema": "fixed",
+        "textoptions": "default",
+        "colorText": "#eeeeee",
+        "fontLabel": "",
+        "fontValue": "",
+        "fontSmall": "",
+        "colorFromTheme": true,
+        "textAnimations": false,
+        "hideValue": false,
+        "tickmode": "off",
+        "peakmode": false,
+        "property": "payload",
+        "peaktime": 3000,
+        "x": 840,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "6885565eca70286b",
+        "type": "comment",
+        "z": "8aef34cf5e12f53d",
+        "name": "Manually Analog Input Signal Simulation",
+        "info": "",
+        "x": 550,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "948297126e50ae99",
+        "type": "pccc out",
+        "z": "8aef34cf5e12f53d",
+        "endpoint": "049c87f44aca988e",
+        "variable": "MAN-AIP2",
+        "name": "(4 - 20 mADC) to PLC AI Channel-PCCC Out Node",
+        "x": 850,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "241864067f1d1d1a",
+        "type": "ui_group",
+        "name": "Analog Input-Water Tank",
+        "tab": "8cef839e904a5ee8",
+        "order": 1,
+        "disp": true,
+        "width": 23,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "049c87f44aca988e",
+        "type": "pccc endpoint",
+        "address": "192.168.1.30",
+        "port": "44818",
+        "userouting": false,
+        "routingbuf": "[1,0]",
+        "cycletime": 500,
+        "timeout": 1500,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "N7:2",
+                "name": "MAN-AIP2"
+            }
+        ]
+    },
+    {
+        "id": "8cef839e904a5ee8",
+        "type": "ui_tab",
+        "name": "Water Tank ",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]

@@ -1,0 +1,120 @@
+[
+    {
+        "id": "e2628c77cf47b02d",
+        "type": "tab",
+        "label": "DIS-Pressure Switch",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "73a6e71c16310527",
+        "type": "pccc out",
+        "z": "e2628c77cf47b02d",
+        "endpoint": "2f9a7382d76d75f9",
+        "variable": "DI-INP",
+        "name": "(True/False) to PLC DI Channel-PCCC Out Node",
+        "x": 730,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "ec131f3681d08aa6",
+        "type": "debug",
+        "z": "e2628c77cf47b02d",
+        "name": "(True/False) to PLC DI Channel-Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7a5c3879c64fe655",
+        "type": "ui_switch",
+        "z": "e2628c77cf47b02d",
+        "name": "(True/False) Manual Digital Input to PLC-Switch Node",
+        "label": "Switch",
+        "tooltip": "",
+        "group": "e607d20689c8b0af",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 220,
+        "y": 180,
+        "wires": [
+            [
+                "73a6e71c16310527",
+                "ec131f3681d08aa6"
+            ]
+        ]
+    },
+    {
+        "id": "10a92e146012927f",
+        "type": "comment",
+        "z": "e2628c77cf47b02d",
+        "name": "Manually Digital Input Signal Simulation",
+        "info": "",
+        "x": 510,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "2f9a7382d76d75f9",
+        "type": "pccc endpoint",
+        "address": "192.168.1.30",
+        "port": "44818",
+        "userouting": false,
+        "routingbuf": "[1,0]",
+        "cycletime": 500,
+        "timeout": 1500,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "B3:0/0",
+                "name": "DI-INP"
+            }
+        ]
+    },
+    {
+        "id": "e607d20689c8b0af",
+        "type": "ui_group",
+        "name": "Digital - Input to PLC",
+        "tab": "268d46f3519b1246",
+        "order": 3,
+        "disp": true,
+        "width": 5,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "268d46f3519b1246",
+        "type": "ui_tab",
+        "name": "MicroLogix 1400",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]

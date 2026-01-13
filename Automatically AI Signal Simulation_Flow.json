@@ -1,0 +1,200 @@
+[
+    {
+        "id": "72bd9c3b191aab5b",
+        "type": "tab",
+        "label": "AAIS-Level Transmitter",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4823cc17a87a8545",
+        "type": "debug",
+        "z": "72bd9c3b191aab5b",
+        "name": "(4 - 20 mADC) to PLC  AI Channel-Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "1e80af438a9e916d",
+        "type": "inject",
+        "z": "72bd9c3b191aab5b",
+        "name": "(0-100%) Auto Analog Input Value to PLC-Inject Node",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "d0e4b4b022b01533"
+            ]
+        ]
+    },
+    {
+        "id": "d0e4b4b022b01533",
+        "type": "function",
+        "z": "72bd9c3b191aab5b",
+        "name": "Generate Increasing/Decreasing AI Value-Function Node",
+        "func": "var step = 5;\nvar minValue = 0;\nvar maxValue = 100;\nif (context.direction === undefined) {\n    context.direction = 1;\n    context.value = minValue;\n}\ncontext.value += context.direction * step;\nif (context.value >= maxValue) {\n    context.value = maxValue;\n    context.direction = -1;\n} else if (context.value <= minValue) {\n    context.value = minValue;\n    context.direction = 1;\n}\nmsg.payload = context.value;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 200,
+        "wires": [
+            [
+                "71e85d338c4401be"
+            ]
+        ]
+    },
+    {
+        "id": "71e85d338c4401be",
+        "type": "function",
+        "z": "72bd9c3b191aab5b",
+        "name": "(0-100%) to (4-20mADC)-Function Node",
+        "func": "var inputPercentage = msg.payload;\nif (inputPercentage < 0) {\n    inputPercentage = 0;\n} else if (inputPercentage > 100) {\n    inputPercentage = 100;\n}\nvar mAValue = 4 + (inputPercentage / 100) * 16;\nmsg.payload = mAValue;\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "4823cc17a87a8545",
+                "2f5e4a1de9c1fd8d",
+                "2583a5c22c056fbe"
+            ]
+        ]
+    },
+    {
+        "id": "2f5e4a1de9c1fd8d",
+        "type": "pccc out",
+        "z": "72bd9c3b191aab5b",
+        "endpoint": "a896b8f55a6a7804",
+        "variable": "AUTO-AIP1",
+        "name": "(4 - 20 mADC) to PLC AI Channel-PCCC Out Node",
+        "x": 890,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "da545ed8202f47bd",
+        "type": "comment",
+        "z": "72bd9c3b191aab5b",
+        "name": "Automatically Analog Input Signal Simulation",
+        "info": "",
+        "x": 590,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "2583a5c22c056fbe",
+        "type": "ui_chart",
+        "z": "72bd9c3b191aab5b",
+        "name": "(4 - 20 mADC) to PLC  AI Channel-Chart Node",
+        "group": "29cb03f2af498e0c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "4",
+        "ymax": "20",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a896b8f55a6a7804",
+        "type": "pccc endpoint",
+        "address": "192.168.1.30",
+        "port": "44818",
+        "userouting": false,
+        "routingbuf": "[1,0]",
+        "cycletime": 500,
+        "timeout": 1500,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "N7:0",
+                "name": "AUTO-AIP1"
+            }
+        ]
+    },
+    {
+        "id": "29cb03f2af498e0c",
+        "type": "ui_group",
+        "name": "Auto Analog Input-Water Tank",
+        "tab": "33395729ca81a62f",
+        "order": 2,
+        "disp": true,
+        "width": 15,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "33395729ca81a62f",
+        "type": "ui_tab",
+        "name": "Water Tank Level",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]

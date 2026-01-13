@@ -1,0 +1,142 @@
+[
+    {
+        "id": "1dbdb0508ae9cff8",
+        "type": "tab",
+        "label": "DOS-Solenoid Valve",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "82079fa33eca3480",
+        "type": "pccc in",
+        "z": "1dbdb0508ae9cff8",
+        "endpoint": "aeb4ae8620fd409d",
+        "mode": "single",
+        "variable": "DI-OP",
+        "diff": true,
+        "name": "(True/False) from PLC DO Channel-PCCC IN Node",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "9e83f50d162561b3",
+                "37540c8d5f9e50cc",
+                "a5d949f02fc04399"
+            ]
+        ]
+    },
+    {
+        "id": "9e83f50d162561b3",
+        "type": "ui_led",
+        "z": "1dbdb0508ae9cff8",
+        "order": 1,
+        "group": "9051fdf2e437cb0b",
+        "width": 2,
+        "height": 2,
+        "label": "Led",
+        "labelPlacement": "right",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "(True/False) from PLC DO Channel-Led Node",
+        "x": 680,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "b63721e9f961e186",
+        "type": "comment",
+        "z": "1dbdb0508ae9cff8",
+        "name": "Manually Digital Output Signal Simulation",
+        "info": "",
+        "x": 560,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "a5d949f02fc04399",
+        "type": "debug",
+        "z": "1dbdb0508ae9cff8",
+        "name": "(True/False) from PLC DO Channel-Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "37540c8d5f9e50cc",
+        "type": "function",
+        "z": "1dbdb0508ae9cff8",
+        "name": "(True/False) to (1/0)-Function Node ",
+        "func": "msg.payload = msg.payload === true ? \"1.0\" : \"0.0\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aeb4ae8620fd409d",
+        "type": "pccc endpoint",
+        "address": "192.168.1.30",
+        "port": "44818",
+        "userouting": false,
+        "routingbuf": "[1,0]",
+        "cycletime": 500,
+        "timeout": 1500,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "B3:0/4",
+                "name": "DI-OP"
+            }
+        ]
+    },
+    {
+        "id": "9051fdf2e437cb0b",
+        "type": "ui_group",
+        "name": "Digital Output-Led Test",
+        "tab": "e109b729acfdd6cb",
+        "order": 4,
+        "disp": true,
+        "width": 23,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e109b729acfdd6cb",
+        "type": "ui_tab",
+        "name": "Led Test",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    }
+]

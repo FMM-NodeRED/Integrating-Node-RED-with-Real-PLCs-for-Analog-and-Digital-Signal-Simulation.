@@ -1,0 +1,140 @@
+[
+    {
+        "id": "f6e8b9dc18f1ffda",
+        "type": "tab",
+        "label": "AOS-I/P Ttansducer",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5b619955117f13da",
+        "type": "function",
+        "z": "f6e8b9dc18f1ffda",
+        "name": "(4-20mADC) to (0-100%)-Function Node ",
+        "func": "// قراءة القيمة التناظرية من 4-20mA\nvar analogValue = msg.payload; // قيمة القراءة من PLC\n\n// تحويل القيمة إلى نسبة مئوية (0% إلى 100%)\nvar minMilliamp = 4;\nvar maxMilliamp = 20;\nvar percentage = ((analogValue - minMilliamp) / (maxMilliamp - minMilliamp)) * 100;\n\n// التأكد من أن القيمة ضمن النطاق 0-100%\npercentage = Math.max(0, Math.min(100, percentage));\n\nmsg.payload = percentage;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "a828b4aba413a970",
+                "7904aae23b7670b2"
+            ]
+        ]
+    },
+    {
+        "id": "a828b4aba413a970",
+        "type": "ui_gauge",
+        "z": "f6e8b9dc18f1ffda",
+        "name": "(0-100%) from PLC AO Channel-Gauge Node",
+        "group": "0e7980f0d676141a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "(0-100%) Gauge",
+        "label": "%",
+        "format": "{{value | number : 1}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 900,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "44005e8001b41f56",
+        "type": "pccc in",
+        "z": "f6e8b9dc18f1ffda",
+        "endpoint": "adb89f29eb605943",
+        "mode": "single",
+        "variable": "AN-OP",
+        "diff": true,
+        "name": "(4 - 20 mADC) from PLC AO Channel-PCCC IN Node",
+        "x": 220,
+        "y": 280,
+        "wires": [
+            [
+                "5b619955117f13da"
+            ]
+        ]
+    },
+    {
+        "id": "14c201b42894a12a",
+        "type": "comment",
+        "z": "f6e8b9dc18f1ffda",
+        "name": "Manually Analog Output Signal Simulation",
+        "info": "",
+        "x": 580,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7904aae23b7670b2",
+        "type": "debug",
+        "z": "f6e8b9dc18f1ffda",
+        "name": "(0-100%) from PLC  AO Channel-Debug Node",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "0e7980f0d676141a",
+        "type": "ui_group",
+        "name": "Analog - Output from PLC",
+        "tab": "268d46f3519b1246",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "adb89f29eb605943",
+        "type": "pccc endpoint",
+        "address": "192.168.1.30",
+        "port": "44818",
+        "userouting": false,
+        "routingbuf": "[1,0]",
+        "cycletime": 500,
+        "timeout": 1500,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "N7:1",
+                "name": "AN-OP"
+            }
+        ]
+    },
+    {
+        "id": "268d46f3519b1246",
+        "type": "ui_tab",
+        "name": "MicroLogix 1400",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
